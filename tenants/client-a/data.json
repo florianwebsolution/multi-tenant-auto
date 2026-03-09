@@ -1,0 +1,506 @@
+{
+  "slug": "auto-ecole-dupont",
+  "name": "Auto-École Dupont",
+  "address": "12 rue de la Paix, 75001 Paris",
+  "phone": "01 23 45 67 89",
+  "email": "contact@autoecole-dupont.fr",
+  "template": "moderne",
+  "colors": {
+    "primary": "#0fe3ff",
+    "secondary": "#1a1a2e"
+  },
+  "banner": {
+    "enabled": true,
+    "message": "🎉 Nouvelle formation moto disponible ! Permis A2 à partir de 890€",
+    "modal": {
+      "enabled": true,
+      "title": "Formation Permis A2",
+      "content": "Découvrez notre nouvelle formation Permis A2 pour les motos jusqu'à 35 kW. Débuter en moto en toute sécurité avec nos moniteurs spécialisés. Places limitées, réservez vite !"
+    }
+  },
+  "header": {
+    "logo": "logo.png",
+    "name": "Auto-École Dupont",
+    "phone": "01 23 45 67 89",
+    "address": "12 rue de la Paix, 75001 Paris",
+    "socialLinks": {
+      "facebook": "https://facebook.com/autoecole-dupont",
+      "instagram": "https://instagram.com/autoecole_dupont",
+      "tiktok": "https://tiktok.com/@autoecole_dupont"
+    },
+    "menu": [
+      {
+        "label": "Formations",
+        "anchor": "formations"
+      },
+      {
+        "label": "Agence",
+        "anchor": "agence"
+      },
+      {
+        "label": "Financements",
+        "anchor": "financements"
+      },
+      {
+        "label": "Atouts",
+        "anchor": "atouts"
+      },
+      {
+        "label": "Contact",
+        "anchor": "contact"
+      }
+    ]
+  },
+  "agences": [
+    {
+      "id": "paris-paix",
+      "ville": "Paris 1er",
+      "address": "12 rue de la Paix, 75001 Paris",
+      "phone": "01 23 45 67 89",
+      "email": "paris@autoecole-dupont.fr",
+      "horaires": [
+        {
+          "jour": "Lundi",
+          "heures": "09h00 - 18h00"
+        },
+        {
+          "jour": "Mardi",
+          "heures": "09h00 - 18h00"
+        },
+        {
+          "jour": "Mercredi",
+          "heures": "09h00 - 18h00"
+        },
+        {
+          "jour": "Jeudi",
+          "heures": "09h00 - 19h00"
+        },
+        {
+          "jour": "Vendredi",
+          "heures": "09h00 - 18h00"
+        },
+        {
+          "jour": "Samedi",
+          "heures": "09h00 - 12h30"
+        },
+        {
+          "jour": "Dimanche",
+          "heures": "Fermé"
+        }
+      ],
+      "coordonnees": {
+        "lat": 48.8698,
+        "lng": 2.3309
+      },
+      "description": "Notre agence principale du 1er arrondissement vous accueille dans un espace moderne et chaleureux. Bénéficiez de l'expertise de notre équipe pédagogique diplômée d'État pour réussir votre permis dans les meilleures conditions. Accessible en métro (Opéra, Madeleine) et en bus.",
+      "images": [
+        "agence-paris-1.jpg",
+        "agence-paris-2.jpg",
+        "salle-code.jpg"
+      ],
+      "equipe": [
+        {
+          "nom": "Jean Dupont",
+          "role": "Directeur pédagogique",
+          "photo": "jean.jpg"
+        },
+        {
+          "nom": "Sophie Martin",
+          "role": "Monitrice voiture",
+          "photo": "sophie.jpg"
+        },
+        {
+          "nom": "Marc Bernard",
+          "role": "Moniteur moto",
+          "photo": "marc.jpg"
+        },
+        {
+          "nom": "Claire Leblanc",
+          "role": "Secrétaire administrative",
+          "photo": "claire.jpg"
+        }
+      ],
+      "galerie": [
+        "photo1.jpg",
+        "photo2.jpg",
+        "photo3.jpg",
+        "photo4.jpg",
+        "photo5.jpg",
+        "photo6.jpg"
+      ],
+      "avis": {
+        "vroomvroom": {
+          "enabled": true,
+          "url": "https://www.vroomvroom.fr/auto-ecole/dupont-paris"
+        },
+        "temoignages": [
+          {
+            "nom": "Marie L.",
+            "note": 5,
+            "texte": "Excellente auto-école ! Les moniteurs sont très pédagogues et patients. J'ai eu mon permis du premier coup grâce à eux.",
+            "date": "2024-02-10"
+          },
+          {
+            "nom": "Thomas R.",
+            "note": 5,
+            "texte": "Très bonne expérience. La formation est sérieuse et bien encadrée. Je recommande vivement !",
+            "date": "2024-01-22"
+          },
+          {
+            "nom": "Camille B.",
+            "note": 4,
+            "texte": "Bon suivi pédagogique, moniteurs disponibles et à l'écoute. Quelques délais pour les examens mais rien de grave.",
+            "date": "2024-03-05"
+          }
+        ],
+        "tauxSatisfaction": 96
+      }
+    },
+    {
+      "id": "paris-republique",
+      "ville": "Paris 11e",
+      "address": "45 boulevard Voltaire, 75011 Paris",
+      "phone": "01 43 55 78 90",
+      "email": "republique@autoecole-dupont.fr",
+      "horaires": [
+        {
+          "jour": "Lundi",
+          "heures": "09h00 - 19h00"
+        },
+        {
+          "jour": "Mardi",
+          "heures": "09h00 - 19h00"
+        },
+        {
+          "jour": "Mercredi",
+          "heures": "09h00 - 19h00"
+        },
+        {
+          "jour": "Jeudi",
+          "heures": "09h00 - 19h00"
+        },
+        {
+          "jour": "Vendredi",
+          "heures": "09h00 - 18h00"
+        },
+        {
+          "jour": "Samedi",
+          "heures": "09h00 - 13h00"
+        },
+        {
+          "jour": "Dimanche",
+          "heures": "Fermé"
+        }
+      ],
+      "coordonnees": {
+        "lat": 48.8634,
+        "lng": 2.3706
+      },
+      "description": "Notre seconde agence, idéalement située boulevard Voltaire, vous propose les mêmes formations de qualité avec une équipe dédiée. Proche de la République et de la Bastille, facile d'accès en transport en commun.",
+      "images": [
+        "agence-voltaire-1.jpg",
+        "agence-voltaire-2.jpg"
+      ],
+      "equipe": [
+        {
+          "nom": "Isabelle Morin",
+          "role": "Responsable d'agence",
+          "photo": "isabelle.jpg"
+        },
+        {
+          "nom": "Karim Benali",
+          "role": "Moniteur voiture",
+          "photo": "karim.jpg"
+        }
+      ],
+      "galerie": [
+        "voltaire1.jpg",
+        "voltaire2.jpg",
+        "voltaire3.jpg"
+      ],
+      "avis": {
+        "vroomvroom": {
+          "enabled": true,
+          "url": "https://www.vroomvroom.fr/auto-ecole/dupont-republique"
+        },
+        "temoignages": [
+          {
+            "nom": "Lucas D.",
+            "note": 5,
+            "texte": "Super équipe, très professionnelle. L'agence est bien équipée et les moniteurs sont top !",
+            "date": "2024-03-18"
+          },
+          {
+            "nom": "Amandine V.",
+            "note": 4,
+            "texte": "Bonne auto-école, moniteurs patients et pédagogues. Je recommande.",
+            "date": "2024-02-28"
+          }
+        ],
+        "tauxSatisfaction": 94
+      }
+    }
+  ],
+  "formations": [
+    {
+      "id": "permis-b",
+      "nom": "Permis B",
+      "icon": "car",
+      "description": "Le permis voiture classique, boîte automatique ou manuelle",
+      "details": "Notre formation Permis B vous prépare à conduire un véhicule léger en toute sécurité. Vous bénéficiez d'une évaluation initiale, d'un accès à la plateforme de code en ligne, et d'heures de conduite adaptées à votre niveau. Nos moniteurs diplômés d'État vous accompagnent jusqu'à la réussite de votre examen.",
+      "tarifs": [
+        {
+          "label": "Forfait 20h (boîte auto)",
+          "prix": 1190
+        },
+        {
+          "label": "Forfait 20h (boîte manuelle)",
+          "prix": 1290
+        },
+        {
+          "label": "Forfait 25h (boîte manuelle)",
+          "prix": 1490
+        },
+        {
+          "label": "Heure supplémentaire",
+          "prix": 55
+        }
+      ],
+      "enAvant": true
+    },
+    {
+      "id": "permis-b-aac",
+      "nom": "Conduite Accompagnée (AAC)",
+      "icon": "users",
+      "description": "Apprendre à conduire dès 15 ans avec un accompagnateur",
+      "details": "La conduite accompagnée (AAC) permet d'apprendre à conduire dès 15 ans, avec un accompagnateur agréé à vos côtés. Cette formule offre de nombreux avantages : plus grande expérience au moment du permis, réduction du délai probatoire, et souvent des assurances moins chères.",
+      "tarifs": [
+        {
+          "label": "Forfait AAC 20h",
+          "prix": 1190
+        },
+        {
+          "label": "Forfait AAC 25h",
+          "prix": 1390
+        }
+      ],
+      "enAvant": true
+    },
+    {
+      "id": "permis-a2",
+      "nom": "Permis A2 – Moto",
+      "icon": "bike",
+      "description": "Motos jusqu'à 35 kW – pour les nouveaux motards",
+      "details": "Le Permis A2 vous ouvre les portes de la moto pour les véhicules jusqu'à 35 kW. Formation théorique (ETM), plateau et circulation. Après 2 ans, accédez au Permis A sans repasser l'examen complet.",
+      "tarifs": [
+        {
+          "label": "Formation complète A2",
+          "prix": 890
+        },
+        {
+          "label": "Heure supplémentaire",
+          "prix": 65
+        }
+      ],
+      "enAvant": true
+    },
+    {
+      "id": "permis-a",
+      "nom": "Permis A – Moto",
+      "icon": "bike",
+      "description": "Accès illimité à toutes les motos, dès 24 ans",
+      "details": "Le Permis A vous permet de conduire toutes les motos sans restriction de puissance. Accessible à partir de 24 ans (ou 2 ans après le Permis A2). Formation complète avec moniteurs spécialisés moto.",
+      "tarifs": [
+        {
+          "label": "Passage A depuis A2",
+          "prix": 450
+        },
+        {
+          "label": "Formation complète A",
+          "prix": 990
+        }
+      ],
+      "enAvant": false
+    },
+    {
+      "id": "permis-am",
+      "nom": "Permis AM – Cyclomoteur",
+      "icon": "bike",
+      "description": "Pour conduire scooters et cyclomoteurs dès 14 ans",
+      "details": "Le Permis AM (anciennement BSR) est requis pour conduire un cyclomoteur ou un scooter 50 cc. Formation de 7 à 8 heures incluant le code de la route simplifié et la conduite en circulation.",
+      "tarifs": [
+        {
+          "label": "Formation complète AM",
+          "prix": 350
+        }
+      ],
+      "enAvant": false
+    },
+    {
+      "id": "permis-b96",
+      "nom": "Permis B96 – Remorque",
+      "icon": "truck",
+      "description": "Conduire avec une remorque jusqu'à 4 250 kg PTAC",
+      "details": "L'extension B96 vous permet de tracter une remorque dont l'ensemble dépasse 3 500 kg (jusqu'à 4 250 kg). Formation de 7 heures minimum avec un moniteur. Pas d'examen, attestation délivrée par l'auto-école.",
+      "tarifs": [
+        {
+          "label": "Formation B96 (7h)",
+          "prix": 490
+        }
+      ],
+      "enAvant": false
+    }
+  ],
+  "prepacode": {
+    "enabled": true,
+    "description": "Entraînez-vous au code de la route en ligne, à votre rythme, 24h/24. Plus de 3 000 questions officielles, statistiques de progression, et simulations d'examen.",
+    "url": "https://www.prepacode-online.com/?ref=dupont"
+  },
+  "paiements": [
+    "Chèque",
+    "Carte bancaire",
+    "Espèces",
+    "CPF",
+    "Virement",
+    "Permis à 1€/j"
+  ],
+  "financements": [
+    {
+      "id": "cpf",
+      "nom": "CPF – Compte Personnel de Formation",
+      "logo": "cpf.png",
+      "description": "Utilisez vos droits CPF pour financer tout ou partie de votre permis de conduire. Simple et rapide depuis l'application Mon Compte Formation.",
+      "lien": "https://www.moncompteformation.gouv.fr"
+    },
+    {
+      "id": "permis-1euro",
+      "nom": "Permis à 1€/jour",
+      "logo": "permis1euro.png",
+      "description": "Le dispositif Permis à 1€/jour permet aux 15-25 ans de financer leur permis grâce à un prêt à taux zéro, remboursable sur 3 ans maximum.",
+      "lien": "https://www.securite-routiere.gouv.fr/permis-1-euro-par-jour"
+    },
+    {
+      "id": "pole-emploi",
+      "nom": "Aide Pôle Emploi / France Travail",
+      "logo": "pole-emploi.png",
+      "description": "Si votre permis est nécessaire pour accéder à un emploi ou une formation, France Travail peut financer tout ou partie de la formation.",
+      "lien": "https://www.francetravail.fr"
+    }
+  ],
+  "labels": [
+    {
+      "id": "qualite-autoecole",
+      "nom": "Qualité Auto-École",
+      "logo": "label-qualite.png",
+      "description": "Certifiée Qualité Auto-École, notre école respecte une charte de qualité stricte garantissant la transparence des tarifs, la qualité pédagogique et le suivi des élèves.",
+      "documents": [
+        {
+          "nom": "Critère 1.2 Les enjeux de la formation",
+          "fichier": "/uploads/client-a/1772792769012-573r42.pdf"
+        },
+        {
+          "nom": "Critère 1.3 Le règlement intérieur",
+          "fichier": "/uploads/client-a/1772792801084-h7roqn.pdf"
+        },
+        {
+          "nom": "Critère 1.6 La formation Post Permis",
+          "fichier": "/uploads/client-a/1772792806427-9patei.pdf"
+        },
+        {
+          "nom": "Critère 1.7 La valorisation de la conduite accompagnée et supervisée",
+          "fichier": "/uploads/client-a/1772792812346-fczjdr.pdf"
+        },
+        {
+          "nom": "Critère 2.2 L'évaluation de formation",
+          "fichier": "/uploads/client-a/1772792816002-flnn8t.pdf"
+        },
+        {
+          "nom": "Critère 2.3 Procédé de positionnement (si demande Qualiopi)",
+          "fichier": "/uploads/client-a/1772792823231-e8xu9b.pdf"
+        },
+        {
+          "nom": "Critère 2.4 La prise en compte d'un handicap",
+          "fichier": "/uploads/client-a/1772792828749-iksmib.pdf"
+        },
+        {
+          "nom": "Critère 3.1 Le parcours de formation",
+          "fichier": "/uploads/client-a/1772792833892-fj12v0.pdf"
+        },
+        {
+          "nom": "Critère 7.4 Les réclamations",
+          "fichier": "/uploads/client-a/1772792836580-mjmku4.pdf"
+        }
+      ]
+    },
+    {
+      "id": "qualiopi",
+      "nom": "Qualiopi",
+      "logo": "qualiopi.png",
+      "description": "Notre certification Qualiopi atteste de la qualité de nos processus de formation. Elle est obligatoire pour accéder aux financements publics (CPF, Pôle Emploi).",
+      "nda": "NDA 11 75 12345 75",
+      "documents": []
+    }
+  ],
+  "atouts": [
+    {
+      "id": "garantie-financiere",
+      "titre": "Garantie financière",
+      "description": "Vos fonds sont protégés par notre garantie financière. En cas de fermeture de l'école, vous êtes remboursé des heures non consommées.",
+      "icon": "shield"
+    },
+    {
+      "id": "moniteurs-diplomes",
+      "titre": "Moniteurs diplômés d'État",
+      "description": "Tous nos moniteurs sont titulaires du BEPECASER ou du Titre Professionnel ECSR. Leur formation continue est assurée chaque année.",
+      "icon": "award"
+    },
+    {
+      "id": "taux-reussite",
+      "titre": "96% de taux de réussite",
+      "description": "Grâce à notre pédagogie individualisée et notre suivi rigoureux, nos élèves réussissent leur permis dans les meilleures conditions.",
+      "icon": "target"
+    },
+    {
+      "id": "vehicules-recents",
+      "titre": "Véhicules récents",
+      "description": "Notre flotte de véhicules est renouvelée régulièrement pour vous garantir confort et sécurité lors de vos leçons de conduite.",
+      "icon": "car"
+    },
+    {
+      "id": "code-en-ligne",
+      "titre": "Code en ligne 24h/24",
+      "description": "Accès illimité à notre plateforme Prépacode pendant toute la durée de votre formation pour vous entraîner à votre rythme.",
+      "icon": "globe"
+    },
+    {
+      "id": "suivi-personnalise",
+      "titre": "Suivi personnalisé",
+      "description": "Un livret d'apprentissage numérique vous permet de suivre votre progression en temps réel et de planifier vos leçons en toute autonomie.",
+      "icon": "gauge"
+    }
+  ],
+  "contact": {
+    "formulaire": true,
+    "rdv": {
+      "enabled": true,
+      "url": "https://calendly.com/autoecole-dupont"
+    }
+  },
+  "footer": {
+    "agrement": "E 12 075 0001 0",
+    "mentionsLegales": "Auto-École Dupont – SARL au capital de 10 000€\nRCS Paris 123 456 789\nSiège social : 12 rue de la Paix, 75001 Paris\nDirecteur de la publication : Jean Dupont\n\nCet établissement est agréé par le Préfet de Paris sous le numéro E 12 075 0001 0.\n\nConception et réalisation du site : équipe technique interne.",
+    "politiqueConfidentialite": "Nous collectons uniquement les données nécessaires au traitement de vos demandes (nom, email, téléphone, message).\n\nVos données ne sont jamais transmises à des tiers à des fins commerciales.\n\nConformément au RGPD, vous disposez d'un droit d'accès, de rectification et de suppression de vos données en contactant contact@autoecole-dupont.fr.\n\nCookies : ce site utilise des cookies fonctionnels uniquement, sans aucun traceur publicitaire.",
+    "autresAgences": [
+      {
+        "nom": "Agence Paris 11e – Voltaire",
+        "url": "https://voltaire.autoecole-dupont.fr"
+      }
+    ]
+  },
+  "auth": {
+    "email": "admin@autoecole-dupont.fr",
+    "passwordHash": null,
+    "setupToken": null,
+    "setupTokenExpiry": null
+  }
+}

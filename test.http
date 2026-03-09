@@ -1,0 +1,13 @@
+POST https://hook.eu2.make.com/sehcy58m8vl8tyq0xfo1rkmmgyfm95ds
+Content-Type: application/json
+
+{
+  "name": "Auto-École Leblod",
+  "email": "f.cherubin@ediser.com",
+  "phone": "03 21 45 67 89",
+  "address": "5 rue Victor Hugo, 62000 Arras",
+  "template": "classique",
+  "colors": { "primary": "#2a9d8f" },
+  "adminEmail": "f.cherubin@ediser.com",
+  "adminPassword": "test1234"
+}

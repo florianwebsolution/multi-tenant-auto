@@ -1,0 +1,14 @@
+{
+  "name": "Auto-École Vitesse",
+  "address": "6 rue du Cheval Blanc, Reims",
+  "phone": "06 12 66 05 12",
+  "email": "contact@autoecole-vitesse.fr",
+  "template": "classique",
+  "colors": {
+    "primary": "#2563eb"
+  },
+  "auth": {
+    "email": "admin@client-b.fr",
+    "password": "$2b$12$N0q.3ketybBopLtq8RWBOuo28mBm5BKRrLBI1ntd7Uu8BLgFdZTcu"
+  }
+}
