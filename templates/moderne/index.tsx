@@ -8,7 +8,7 @@ import type {
 } from "@/lib/tenant";
 import {
   Phone, Mail, MapPin, Clock, Calendar,
-  Facebook, Instagram, Video,
+  Facebook, Instagram, Video, Youtube, Linkedin, Share2,
   Info, Menu, X,
   ChevronDown, ChevronUp, ChevronLeft, ChevronRight,
   Check, Download, ExternalLink,
@@ -152,10 +152,8 @@ function Banner({ banner }: { banner: TenantData["banner"] }) {
 function Header({ tenant }: { tenant: TenantData }) {
   const [menuOpen, setMenuOpen] = useState(false);
   const h = tenant.header;
-  const agences = tenant.agences ?? [];
-  const firstAgence = agences[0];
-  const open = firstAgence ? isAgenceOpen(firstAgence.horaires) : false;
-  const cities = agences.length > 1 ? agences.map((a) => a.ville) : [];
+  const agence = tenant.agence;
+  const open = agence ? isAgenceOpen(agence.horaires) : false;
   const displayName = h?.name ?? tenant.name;
 
   return (
@@ -176,9 +174,6 @@ function Header({ tenant }: { tenant: TenantData }) {
                   {open ? "Ouvert" : "Fermé"}
                 </span>
               </div>
-              {cities.length > 0 && (
-                <p className="text-xs text-gray-400 mt-0.5">{cities.join(" · ")}</p>
-              )}
             </div>
           </a>
 
@@ -200,14 +195,14 @@ function Header({ tenant }: { tenant: TenantData }) {
 
           {/* Desktop actions */}
           <div className="hidden md:flex items-center gap-4">
-            {(h?.phone ?? tenant.phone) && (
+            {(h?.phone ?? agence?.phone) && (
               <a
-                href={`tel:${(h?.phone ?? tenant.phone).replace(/\s/g, "")}`}
+                href={`tel:${(h?.phone ?? agence?.phone ?? "").replace(/\s/g, "")}`}
                 className="flex items-center gap-1.5 text-sm font-semibold"
                 style={{ color: "var(--color-primary)" }}
               >
                 <Phone className="w-4 h-4" />
-                {h?.phone ?? tenant.phone}
+                {h?.phone ?? agence?.phone}
               </a>
             )}
             <div className="flex items-center gap-2">
@@ -224,6 +219,21 @@ function Header({ tenant }: { tenant: TenantData }) {
               {h?.socialLinks?.tiktok && (
                 <a href={h.socialLinks.tiktok} target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-gray-700 transition-colors">
                   <Video className="w-5 h-5" />
+                </a>
+              )}
+              {h?.socialLinks?.youtube && (
+                <a href={h.socialLinks.youtube} target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-gray-700 transition-colors">
+                  <Youtube className="w-5 h-5" />
+                </a>
+              )}
+              {h?.socialLinks?.linkedin && (
+                <a href={h.socialLinks.linkedin} target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-gray-700 transition-colors">
+                  <Linkedin className="w-5 h-5" />
+                </a>
+              )}
+              {h?.socialLinks?.snapchat && (
+                <a href={h.socialLinks.snapchat} target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-gray-700 transition-colors">
+                  <Share2 className="w-5 h-5" />
                 </a>
               )}
             </div>
@@ -253,14 +263,14 @@ function Header({ tenant }: { tenant: TenantData }) {
               </a>
             ))}
             <div className="pt-2 border-t border-gray-100 mt-2 flex items-center justify-between">
-              {(h?.phone ?? tenant.phone) && (
+              {(h?.phone ?? agence?.phone) && (
                 <a
-                  href={`tel:${(h?.phone ?? tenant.phone).replace(/\s/g, "")}`}
+                  href={`tel:${(h?.phone ?? agence?.phone ?? "").replace(/\s/g, "")}`}
                   className="flex items-center gap-1.5 text-sm font-semibold"
                   style={{ color: "var(--color-primary)" }}
                 >
                   <Phone className="w-4 h-4" />
-                  {h?.phone ?? tenant.phone}
+                  {h?.phone ?? agence?.phone}
                 </a>
               )}
               <div className="flex items-center gap-3">
@@ -277,6 +287,21 @@ function Header({ tenant }: { tenant: TenantData }) {
                 {h?.socialLinks?.tiktok && (
                   <a href={h.socialLinks.tiktok} target="_blank" rel="noopener noreferrer" className="text-gray-400">
                     <Video className="w-5 h-5" />
+                  </a>
+                )}
+                {h?.socialLinks?.youtube && (
+                  <a href={h.socialLinks.youtube} target="_blank" rel="noopener noreferrer" className="text-gray-400">
+                    <Youtube className="w-5 h-5" />
+                  </a>
+                )}
+                {h?.socialLinks?.linkedin && (
+                  <a href={h.socialLinks.linkedin} target="_blank" rel="noopener noreferrer" className="text-gray-400">
+                    <Linkedin className="w-5 h-5" />
+                  </a>
+                )}
+                {h?.socialLinks?.snapchat && (
+                  <a href={h.socialLinks.snapchat} target="_blank" rel="noopener noreferrer" className="text-gray-400">
+                    <Share2 className="w-5 h-5" />
                   </a>
                 )}
               </div>
@@ -450,14 +475,65 @@ function FormationModal({ formation, onClose }: { formation: TenantFormation; on
   );
 }
 
-function Formations({ formations }: { formations?: TenantFormation[] }) {
-  const [selected, setSelected] = useState<TenantFormation | null>(null);
+function FormationsList({ formations, onSelect }: { formations: TenantFormation[]; onSelect: (f: TenantFormation) => void }) {
   const [showAll, setShowAll] = useState(false);
-
-  if (!formations?.length) return null;
-
   const enAvant = formations.filter((f) => f.enAvant);
   const rest = formations.filter((f) => !f.enAvant);
+
+  return (
+    <>
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        {enAvant.map((f) => (
+          <FormationCard key={f.id} formation={f} onClick={() => onSelect(f)} />
+        ))}
+      </div>
+
+      {rest.length > 0 && (
+        <div className="mt-10">
+          <button
+            onClick={() => setShowAll(!showAll)}
+            className="flex items-center gap-2 mx-auto text-sm font-medium text-gray-500 hover:text-[#1a1a2e] transition-colors py-2 px-4"
+          >
+            {showAll ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
+            {showAll
+              ? "Masquer les autres formations"
+              : `Voir toutes nos formations (${rest.length} de plus)`}
+          </button>
+
+          {showAll && (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mt-6">
+              {rest.map((f) => (
+                <FormationCard key={f.id} formation={f} onClick={() => onSelect(f)} muted />
+              ))}
+            </div>
+          )}
+        </div>
+      )}
+    </>
+  );
+}
+
+function Formations({
+  formations,
+  formationsMoto,
+  formationsRemorque,
+}: {
+  formations?: TenantFormation[];
+  formationsMoto?: TenantFormation[];
+  formationsRemorque?: TenantFormation[];
+}) {
+  const tabs = [
+    { key: "voiture",  label: "Voiture",  Icon: Car,   data: formations },
+    { key: "moto",     label: "Moto",     Icon: Bike,  data: formationsMoto },
+    { key: "remorque", label: "Remorque", Icon: Truck, data: formationsRemorque },
+  ].filter((t) => t.data && t.data.length > 0);
+
+  const [activeTab, setActiveTab] = useState(0);
+  const [selected, setSelected] = useState<TenantFormation | null>(null);
+
+  if (tabs.length === 0) return null;
+
+  const currentFormations = tabs[activeTab]?.data ?? [];
 
   return (
     <>
@@ -473,35 +549,27 @@ function Formations({ formations }: { formations?: TenantFormation[] }) {
             </p>
           </div>
 
-          {/* Featured formations */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {enAvant.map((f) => (
-              <FormationCard key={f.id} formation={f} onClick={() => setSelected(f)} />
-            ))}
-          </div>
-
-          {/* Accordion for the rest */}
-          {rest.length > 0 && (
-            <div className="mt-10">
-              <button
-                onClick={() => setShowAll(!showAll)}
-                className="flex items-center gap-2 mx-auto text-sm font-medium text-gray-500 hover:text-[#1a1a2e] transition-colors py-2 px-4"
-              >
-                {showAll ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
-                {showAll
-                  ? "Masquer les autres formations"
-                  : `Voir toutes nos formations (${rest.length} de plus)`}
-              </button>
-
-              {showAll && (
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mt-6">
-                  {rest.map((f) => (
-                    <FormationCard key={f.id} formation={f} onClick={() => setSelected(f)} muted />
-                  ))}
-                </div>
-              )}
+          {tabs.length > 1 && (
+            <div className="flex justify-center gap-2 mb-10">
+              {tabs.map((tab, i) => (
+                <button
+                  key={tab.key}
+                  onClick={() => { setActiveTab(i); setSelected(null); }}
+                  className={`flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-semibold transition-all border ${
+                    activeTab === i
+                      ? "text-white border-transparent"
+                      : "bg-white text-gray-500 border-gray-200 hover:border-gray-400"
+                  }`}
+                  style={activeTab === i ? { backgroundColor: "var(--color-primary)", borderColor: "var(--color-primary)" } : {}}
+                >
+                  <tab.Icon className="w-4 h-4" />
+                  {tab.label}
+                </button>
+              ))}
             </div>
           )}
+
+          <FormationsList formations={currentFormations} onSelect={setSelected} />
         </div>
       </section>
 
@@ -602,15 +670,15 @@ function AgenceDetail({ agence }: { agence: TenantAgence }) {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-16">
         {/* Left: images + description + équipe */}
         <div>
-          <ImageCarousel images={agence.images} />
+          <ImageCarousel images={agence.images ?? []} />
 
           <p className="text-gray-600 leading-relaxed mb-8">{agence.description}</p>
 
-          {agence.equipe.length > 0 && (
+          {(agence.equipe?.length ?? 0) > 0 && (
             <div>
               <h3 className="font-bold text-[#1a1a2e] text-xl mb-5">Notre équipe</h3>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                {agence.equipe.map((membre) => (
+                {agence.equipe?.map((membre) => (
                   <div key={membre.nom} className="flex items-center gap-3 p-4 bg-gray-50 rounded-xl">
                     <div className="w-12 h-12 rounded-full bg-gray-200 flex items-center justify-center flex-shrink-0">
                       <span className="text-lg font-bold text-gray-400">{membre.nom[0]}</span>
@@ -673,9 +741,11 @@ function AgenceDetail({ agence }: { agence: TenantAgence }) {
           <div className="rounded-2xl overflow-hidden bg-gray-100 flex flex-col items-center justify-center gap-2 text-gray-400" style={{ height: 220 }}>
             <MapPin className="w-10 h-10 opacity-30" />
             <p className="text-sm font-medium opacity-60 text-center px-4">{agence.address}</p>
-            <p className="text-xs opacity-30">
-              {agence.coordonnees.lat.toFixed(4)}, {agence.coordonnees.lng.toFixed(4)}
-            </p>
+            {agence.coordonnees && (
+              <p className="text-xs opacity-30">
+                {agence.coordonnees.lat.toFixed(4)}, {agence.coordonnees.lng.toFixed(4)}
+              </p>
+            )}
           </div>
 
           {/* Contact info */}
@@ -703,17 +773,17 @@ function AgenceDetail({ agence }: { agence: TenantAgence }) {
       </div>
 
       {/* Avis */}
-      {agence.avis?.temoignages?.length > 0 && (
+      {(agence.avis?.temoignages?.length ?? 0) > 0 && (
         <div>
           <div className="text-center mb-10">
             <div className="text-7xl font-bold mb-2" style={{ color: "var(--color-primary)" }}>
-              {agence.avis.tauxSatisfaction}%
+              {agence.avis?.tauxSatisfaction}%
             </div>
             <p className="text-gray-500 font-medium">de satisfaction client</p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {agence.avis.temoignages.map((t, i) => (
+            {agence.avis?.temoignages?.map((t, i) => (
               <div key={i} className="bg-gray-50 rounded-2xl p-6">
                 <StarRating note={t.note} />
                 <p className="text-gray-600 mt-3 mb-4 italic text-sm leading-relaxed">
@@ -732,42 +802,20 @@ function AgenceDetail({ agence }: { agence: TenantAgence }) {
   );
 }
 
-function AgencesSection({ agences }: { agences?: TenantAgence[] }) {
-  const [activeTab, setActiveTab] = useState(0);
-
-  if (!agences?.length) return null;
+function AgencesSection({ agence }: { agence?: TenantAgence }) {
+  if (!agence) return null;
 
   return (
     <section id="agence" className="py-20 bg-white">
       <div className="max-w-6xl mx-auto px-4">
         <div className="text-center mb-16">
           <p className="text-sm font-semibold uppercase tracking-widest mb-3" style={{ color: "var(--color-primary)" }}>
-            {agences.length > 1 ? "Nos agences" : "Notre agence"}
+            Notre agence
           </p>
           <h2 className="text-4xl font-bold text-[#1a1a2e]">Venez nous rendre visite</h2>
         </div>
 
-        {/* Tabs for multiple agencies */}
-        {agences.length > 1 && (
-          <div className="flex flex-wrap gap-2 mb-12 justify-center">
-            {agences.map((a, i) => (
-              <button
-                key={a.id}
-                onClick={() => setActiveTab(i)}
-                className="px-6 py-2.5 rounded-full text-sm font-semibold transition-all"
-                style={
-                  i === activeTab
-                    ? { backgroundColor: "var(--color-primary)", color: "white" }
-                    : { backgroundColor: "#f3f4f6", color: "#6b7280" }
-                }
-              >
-                {a.ville}
-              </button>
-            ))}
-          </div>
-        )}
-
-        <AgenceDetail key={agences[activeTab].id} agence={agences[activeTab]} />
+        <AgenceDetail agence={agence} />
       </div>
     </section>
   );
@@ -917,14 +965,13 @@ function AtoutsLabels({
 
 function Contact({
   contact,
-  agences,
+  agence,
 }: {
   contact?: TenantData["contact"];
-  agences?: TenantAgence[];
+  agence?: TenantAgence;
 }) {
   const [form, setForm] = useState({ nom: "", email: "", telephone: "", message: "" });
   const [sent, setSent] = useState(false);
-  const firstAgence = agences?.[0];
 
   const handleSubmit = useCallback(
     (e: React.FormEvent<HTMLFormElement>) => {
@@ -1050,27 +1097,27 @@ function Contact({
               </div>
             )}
 
-            {firstAgence && (
+            {agence && (
               <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
                 <h3 className="font-bold text-[#1a1a2e] mb-5">Coordonnées</h3>
                 <div className="space-y-4">
                   <a
-                    href={`tel:${firstAgence.phone.replace(/\s/g, "")}`}
+                    href={`tel:${agence.phone.replace(/\s/g, "")}`}
                     className="flex items-center gap-3 text-gray-600 hover:text-[#1a1a2e] transition-colors"
                   >
                     <Phone className="w-4 h-4 flex-shrink-0" style={{ color: "var(--color-primary)" }} />
-                    <span className="text-sm">{firstAgence.phone}</span>
+                    <span className="text-sm">{agence.phone}</span>
                   </a>
                   <a
-                    href={`mailto:${firstAgence.email}`}
+                    href={`mailto:${agence.email}`}
                     className="flex items-center gap-3 text-gray-600 hover:text-[#1a1a2e] transition-colors"
                   >
                     <Mail className="w-4 h-4 flex-shrink-0" style={{ color: "var(--color-primary)" }} />
-                    <span className="text-sm">{firstAgence.email}</span>
+                    <span className="text-sm">{agence.email}</span>
                   </a>
                   <div className="flex items-start gap-3 text-gray-600">
                     <MapPin className="w-4 h-4 flex-shrink-0 mt-0.5" style={{ color: "var(--color-primary)" }} />
-                    <span className="text-sm">{firstAgence.address}</span>
+                    <span className="text-sm">{agence.address}</span>
                   </div>
                 </div>
               </div>
@@ -1122,6 +1169,21 @@ function FooterSection({ tenant }: { tenant: TenantData }) {
                 {h?.socialLinks?.tiktok && (
                   <a href={h.socialLinks.tiktok} target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition-colors">
                     <Video className="w-5 h-5" />
+                  </a>
+                )}
+                {h?.socialLinks?.youtube && (
+                  <a href={h.socialLinks.youtube} target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition-colors">
+                    <Youtube className="w-5 h-5" />
+                  </a>
+                )}
+                {h?.socialLinks?.linkedin && (
+                  <a href={h.socialLinks.linkedin} target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition-colors">
+                    <Linkedin className="w-5 h-5" />
+                  </a>
+                )}
+                {h?.socialLinks?.snapchat && (
+                  <a href={h.socialLinks.snapchat} target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition-colors">
+                    <Share2 className="w-5 h-5" />
                   </a>
                 )}
               </div>
@@ -1217,12 +1279,16 @@ export default function ModerneTemplate({ tenant }: { tenant: TenantData }) {
       <main>
         <Hero tenant={tenant} />
         <PaiementsStrip paiements={tenant.paiements} labels={tenant.labels} />
-        <Formations formations={tenant.formations} />
+        <Formations
+            formations={tenant.formations}
+            formationsMoto={tenant.formationsMoto}
+            formationsRemorque={tenant.formationsRemorque}
+          />
         <Prepacode prepacode={tenant.prepacode} />
-        <AgencesSection agences={tenant.agences} />
+        <AgencesSection agence={tenant.agence} />
         <Financements financements={tenant.financements} />
         <AtoutsLabels atouts={tenant.atouts} labels={tenant.labels} />
-        <Contact contact={tenant.contact} agences={tenant.agences} />
+        <Contact contact={tenant.contact} agence={tenant.agence} />
       </main>
 
       <FooterSection tenant={tenant} />

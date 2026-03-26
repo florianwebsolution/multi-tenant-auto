@@ -15,7 +15,7 @@ import CompteTab from "./tabs/Compte";
 
 const TABS = [
   { id: "general",      label: "Général" },
-  { id: "agences",      label: "Agences" },
+  { id: "agences",      label: "Agence" },
   { id: "header",       label: "Header & Navigation" },
   { id: "formations",   label: "Formations" },
   { id: "financements", label: "Financements" },

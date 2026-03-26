@@ -20,8 +20,8 @@ export default function ClassiqueTemplate({ tenant }: { tenant: TenantData }) {
         </h1>
         <hr className="border-zinc-200" />
         <div className="flex flex-col gap-2 text-zinc-600 text-sm">
-          <p>{tenant.address}</p>
-          <p>{tenant.phone}</p>
+          <p>{tenant.agence?.address}</p>
+          <p>{tenant.agence?.phone}</p>
           {tenant.email && <p>{tenant.email}</p>}
         </div>
       </main>

@@ -42,3 +42,6 @@ next-env.d.ts
 
 # uploads (binary files generated at runtime)
 /public/uploads/
+
+# tenant data (generated at runtime, contains sensitive info)
+/tenants/

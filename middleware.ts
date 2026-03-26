@@ -1,22 +1,41 @@
 import { NextRequest, NextResponse } from "next/server";
 import { verifyToken } from "@/lib/auth";
 
-function isNgrokHost(host: string): boolean {
-  return host.includes("ngrok.io") || host.includes("ngrok-free.app");
+const ROOT_DOMAIN = "cherubif.fr";
+
+function isRootDomain(host: string): boolean {
+  // cherubif.fr or www.cherubif.fr — no tenant subdomain
+  return host === ROOT_DOMAIN || host === `www.${ROOT_DOMAIN}`;
+}
+
+function extractSlug(host: string): string | null {
+  // Strip port if present (e.g. localhost:3000)
+  const hostWithoutPort = host.split(":")[0];
+  const parts = hostWithoutPort.split(".");
+
+  // *.cherubif.fr → subdomain is the slug
+  if (hostWithoutPort.endsWith(ROOT_DOMAIN)) {
+    const sub = parts.slice(0, parts.length - ROOT_DOMAIN.split(".").length).join(".");
+    return sub || null;
+  }
+
+  // localhost dev: slug.localhost
+  if (parts.length >= 2 && parts[parts.length - 1] === "localhost") {
+    return parts[0];
+  }
+
+  return null;
 }
 
 export async function middleware(request: NextRequest) {
   const host = request.headers.get("host") ?? "";
 
-  // Bypass tenant detection for ngrok tunnels (used for Make/webhook testing)
-  if (isNgrokHost(host)) {
+  // Root domain — no tenant, pass through (landing page, webhook, etc.)
+  if (isRootDomain(host)) {
     return NextResponse.next();
   }
 
-  const parts = host.split(".");
-
-  // Determine tenant slug from subdomain
-  const slug = parts.length > 1 ? parts[0] : null;
+  const slug = extractSlug(host);
 
   const { pathname } = request.nextUrl;
   const isBackoffice = pathname.startsWith("/backoffice");

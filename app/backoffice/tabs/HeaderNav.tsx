@@ -12,11 +12,14 @@ export default function HeaderNavTab({ tenant }: { tenant: TenantData }) {
 
   const [logo, setLogo] = useState(h.logo ?? "");
   const [name, setName] = useState(h.name ?? tenant.name ?? "");
-  const [phone, setPhone] = useState(h.phone ?? tenant.phone ?? "");
-  const [address, setAddress] = useState(h.address ?? tenant.address ?? "");
+  const [phone, setPhone] = useState(h.phone ?? tenant.agence?.phone ?? "");
+  const [address, setAddress] = useState(h.address ?? tenant.agence?.address ?? "");
   const [facebook, setFacebook] = useState(h.socialLinks?.facebook ?? "");
   const [instagram, setInstagram] = useState(h.socialLinks?.instagram ?? "");
   const [tiktok, setTiktok] = useState(h.socialLinks?.tiktok ?? "");
+  const [youtube, setYoutube] = useState(h.socialLinks?.youtube ?? "");
+  const [linkedin, setLinkedin] = useState(h.socialLinks?.linkedin ?? "");
+  const [snapchat, setSnapchat] = useState(h.socialLinks?.snapchat ?? "");
   const [menu, setMenu] = useState<{ label: string; anchor: string }[]>(h.menu ?? []);
 
   const [status, setStatus] = useState<SaveStatus>("idle");
@@ -52,7 +55,7 @@ export default function HeaderNavTab({ tenant }: { tenant: TenantData }) {
           name,
           phone,
           address,
-          socialLinks: { facebook, instagram, tiktok },
+          socialLinks: { facebook, instagram, tiktok, youtube, linkedin, snapchat },
           menu,
         },
       },
@@ -84,6 +87,9 @@ export default function HeaderNavTab({ tenant }: { tenant: TenantData }) {
           <Field label="Facebook" value={facebook} onChange={setFacebook} placeholder="https://facebook.com/..." />
           <Field label="Instagram" value={instagram} onChange={setInstagram} placeholder="https://instagram.com/..." />
           <Field label="TikTok" value={tiktok} onChange={setTiktok} placeholder="https://tiktok.com/@..." />
+          <Field label="YouTube" value={youtube} onChange={setYoutube} placeholder="https://youtube.com/@..." />
+          <Field label="LinkedIn" value={linkedin} onChange={setLinkedin} placeholder="https://linkedin.com/company/..." />
+          <Field label="Snapchat" value={snapchat} onChange={setSnapchat} placeholder="https://snapchat.com/add/..." />
         </div>
       </SectionCard>
 

@@ -22,18 +22,18 @@ export interface TenantTemoignage {
 }
 
 export interface TenantAgence {
-  id: string;
-  ville: string;
+  nom?: string;
   address: string;
   phone: string;
   email: string;
+  agrement?: string;
   horaires: TenantHoraire[];
-  coordonnees: { lat: number; lng: number };
-  description: string;
-  images: string[];
-  equipe: TenantEquipeMembre[];
-  galerie: string[];
-  avis: {
+  coordonnees?: { lat: number; lng: number };
+  description?: string;
+  images?: string[];
+  equipe?: TenantEquipeMembre[];
+  galerie?: string[];
+  avis?: {
     vroomvroom: { enabled: boolean; url: string };
     temoignages: TenantTemoignage[];
     tauxSatisfaction: number;
@@ -79,9 +79,12 @@ export interface TenantAtout {
 export interface TenantData {
   // Core fields (used by backoffice)
   name: string;
-  address: string;
-  phone: string;
   email?: string;
+
+  // Métier
+  siret?: string;
+  rcs?: string;
+  clientEnpc?: string;
 
   // Template config
   slug?: string;
@@ -111,12 +114,19 @@ export interface TenantData {
       facebook?: string;
       instagram?: string;
       tiktok?: string;
+      youtube?: string;
+      linkedin?: string;
+      snapchat?: string;
     };
     menu?: Array<{ label: string; anchor: string }>;
   };
 
-  agences?: TenantAgence[];
+  agence?: TenantAgence;
   formations?: TenantFormation[];
+  formationsMoto?: TenantFormation[];
+  formationsRemorque?: TenantFormation[];
+  formationsPoidLourd?: TenantFormation[];
+  formationsBateau?: TenantFormation[];
 
   prepacode?: {
     enabled: boolean;
@@ -129,6 +139,9 @@ export interface TenantData {
   labels?: TenantLabel[];
   atouts?: TenantAtout[];
 
+  chiffresClés?: Array<{ label: string; valeur: string }>;
+  piecesAFournir?: { auto?: string; moto?: string };
+
   contact?: {
     formulaire: boolean;
     rdv: { enabled: boolean; url: string };
@@ -139,6 +152,13 @@ export interface TenantData {
     mentionsLegales: string;
     politiqueConfidentialite: string;
     autresAgences: Array<{ nom: string; url: string }>;
+  };
+
+  _jfFiles?: {
+    logo?: string;
+    agencePhotos?: string[];
+    qualiopi?: string;
+    documents?: Record<string, string>;
   };
 }
 
@@ -186,7 +206,7 @@ export async function getTenantRaw(slug: string): Promise<TenantRaw | null> {
 /** Writes allowed fields back to data.json, preserving auth and other fields */
 export async function updateTenant(
   slug: string,
-  fields: Partial<Pick<TenantData, "name" | "address" | "phone" | "email">>
+  fields: Partial<Pick<TenantData, "name" | "email">>
 ): Promise<TenantData | null> {
   try {
     const raw = await readTenantFile(slug);

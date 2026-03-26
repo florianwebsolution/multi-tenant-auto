@@ -76,7 +76,7 @@ async function uniqueSlug(base: string): Promise<string> {
 // Formations catalogue
 // ---------------------------------------------------------------------------
 
-const FORMATIONS_CATALOGUE: Record<string, PlainObject> = {
+const FORMATIONS_VOITURE_CATALOGUE: Record<string, PlainObject> = {
   "permis-b": {
     id: "permis-b",
     nom: "Permis B",
@@ -95,6 +95,9 @@ const FORMATIONS_CATALOGUE: Record<string, PlainObject> = {
     tarifs: [],
     enAvant: true,
   },
+};
+
+const FORMATIONS_MOTO_CATALOGUE: Record<string, PlainObject> = {
   "permis-a2": {
     id: "permis-a2",
     nom: "Permis A2",
@@ -111,6 +114,15 @@ const FORMATIONS_CATALOGUE: Record<string, PlainObject> = {
     description: "Permis moto toutes cylindrées.",
     details: "Accessible à 24 ans ou par passerelle A2. Formation progressive pour maîtriser les grosses cylindrées.",
     tarifs: [],
+    enAvant: true,
+  },
+  "permis-a1": {
+    id: "permis-a1",
+    nom: "Permis A1",
+    icon: "bike",
+    description: "Permis moto légère pour motos jusqu'à 11 kW.",
+    details: "Accessible dès 16 ans. Idéal pour débuter la moto en toute sécurité.",
+    tarifs: [],
     enAvant: false,
   },
   "permis-am": {
@@ -122,12 +134,24 @@ const FORMATIONS_CATALOGUE: Record<string, PlainObject> = {
     tarifs: [],
     enAvant: false,
   },
+};
+
+const FORMATIONS_REMORQUE_CATALOGUE: Record<string, PlainObject> = {
   "permis-b96": {
     id: "permis-b96",
     nom: "Permis B96",
     icon: "truck",
     description: "Extension du permis B pour remorques de 750 à 3 500 kg.",
     details: "Formation courte de 7 heures permettant de tracter des remorques lourdes sans passer le permis BE.",
+    tarifs: [],
+    enAvant: true,
+  },
+  "permis-be": {
+    id: "permis-be",
+    nom: "Permis BE",
+    icon: "truck",
+    description: "Permis remorque pour ensembles de plus de 3 500 kg.",
+    details: "Formation pour tracter des caravanes, remorques lourdes ou van. Examen pratique requis.",
     tarifs: [],
     enAvant: false,
   },
@@ -247,8 +271,6 @@ Aucune donnée personnelle n'est cédée à des tiers sans votre consentement pr
 
 function buildDefaultTemplate(
   name: string,
-  address: string,
-  phone: string,
   email: string
 ): PlainObject {
   return {
@@ -260,9 +282,7 @@ function buildDefaultTemplate(
     header: {
       logo: "",
       name,
-      phone,
-      address,
-      socialLinks: { facebook: "", instagram: "", tiktok: "" },
+      socialLinks: { facebook: "", instagram: "", tiktok: "", youtube: "", linkedin: "", snapchat: "" },
       menu: [
         { label: "Formations", anchor: "formations" },
         { label: "Agence", anchor: "agence" },
@@ -271,7 +291,20 @@ function buildDefaultTemplate(
         { label: "Contact", anchor: "contact" },
       ],
     },
-    agences: [],
+    agence: {
+      nom: "", phone: "", email: "", address: "", agrement: "",
+      horaires: [
+        { jour: "Lundi",    heures: "" },
+        { jour: "Mardi",    heures: "" },
+        { jour: "Mercredi", heures: "" },
+        { jour: "Jeudi",    heures: "" },
+        { jour: "Vendredi", heures: "" },
+        { jour: "Samedi",   heures: "" },
+        { jour: "Dimanche", heures: "Fermé" },
+      ],
+      images: [], equipe: [], galerie: [],
+      avis: { vroomvroom: { enabled: false, url: "" }, temoignages: [], tauxSatisfaction: 0 },
+    },
     formations: [],
     prepacode: {
       enabled: false,
@@ -288,54 +321,51 @@ function buildDefaultTemplate(
     },
     footer: {
       agrement: "",
-      mentionsLegales: generateMentionsLegales(name, address, email),
+      mentionsLegales: generateMentionsLegales(name, "", email),
       politiqueConfidentialite: generatePolitiqueConfidentialite(name, email),
     },
   };
 }
 
 // ---------------------------------------------------------------------------
-// Gravity Forms label → catalogue slug mapping
+// Label → slug mappings par catégorie
 // ---------------------------------------------------------------------------
 
-// Covers all keys in FORMATIONS_CATALOGUE + common GF short labels
-const GF_LABEL_TO_SLUG: Record<string, string> = {
-  // Permis B
-  "B":           "permis-b",
-  "Permis B":    "permis-b",
-  // Permis B AAC / BEA
-  "BEA":         "permis-b-aac",
-  "AAC":         "permis-b-aac",
-  "Permis B AAC": "permis-b-aac",
+const LABEL_TO_SLUG_VOITURE: Record<string, string> = {
+  "B":              "permis-b",
+  "Permis B":       "permis-b",
+  "BEA":            "permis-b-aac",
+  "AAC":            "permis-b-aac",
+  "Permis B AAC":   "permis-b-aac",
   "Permis B (AAC)": "permis-b-aac",
-  // Permis A2
-  "A2":          "permis-a2",
-  "Permis A2":   "permis-a2",
-  // Permis A
-  "A":           "permis-a",
-  "Permis A":    "permis-a",
-  // Permis A1
-  "A1":          "permis-a2", // A1 mapped to a2 (closest catalogue entry)
-  // Permis AM / BSR
-  "AM":          "permis-am",
-  "BSR":         "permis-am",
-  "Permis AM":   "permis-am",
+};
+
+const LABEL_TO_SLUG_MOTO: Record<string, string> = {
+  "A2":              "permis-a2",
+  "Permis A2":       "permis-a2",
+  "A":               "permis-a",
+  "Permis A":        "permis-a",
+  "A1":              "permis-a1",
+  "Permis A1":       "permis-a1",
+  "AM":              "permis-am",
+  "BSR":             "permis-am",
+  "Permis AM":       "permis-am",
   "Permis AM (BSR)": "permis-am",
-  // Permis B96
-  "B96":         "permis-b96",
-  "Permis B96":  "permis-b96",
+};
+
+const LABEL_TO_SLUG_REMORQUE: Record<string, string> = {
+  "B96":        "permis-b96",
+  "Permis B96": "permis-b96",
+  "BE":         "permis-be",
+  "Permis BE":  "permis-be",
 };
 
 /**
- * Normalise any raw formations value into an array of catalogue slugs.
- * Accepts:
- *   - Gravity Forms object: { "55.1": "B", "55.2": "BEA", "55.3": "" }
- *   - Plain array of labels or slugs: ["B", "permis-a2"]
- *   - A single string (edge case)
- * Filters empty values, maps via GF_LABEL_TO_SLUG (falls back to the raw
- * value itself so direct slug calls keep working), and deduplicates.
+ * Normalise a raw formations field into an array of catalogue slugs.
+ * Accepts a JotForm object, plain array, or single string.
+ * Maps labels via the provided labelMap, falls back to the raw value as-is.
  */
-function normalizeFormations(raw: unknown): string[] {
+function normalizeFormations(raw: unknown, labelMap: Record<string, string>): string[] {
   let values: string[] = [];
 
   if (Array.isArray(raw)) {
@@ -351,9 +381,8 @@ function normalizeFormations(raw: unknown): string[] {
   const slugs = values
     .map((v) => v.trim())
     .filter((v) => v.length > 0)
-    .map((v) => GF_LABEL_TO_SLUG[v] ?? v); // fallback keeps the value as-is (direct slug call)
+    .map((v) => labelMap[v] ?? v);
 
-  // Deduplicate while preserving order
   return [...new Set(slugs)];
 }
 
@@ -392,7 +421,7 @@ export async function POST(request: NextRequest) {
   }
 
   // 3. Validate required fields
-  const required = ["name", "email", "phone", "address", "adminEmail"] as const;
+  const required = ["name", "email", "adminEmail"] as const;
   for (const field of required) {
     if (!body[field] || typeof body[field] !== "string") {
       return err(`Le champ "${field}" est obligatoire.`);
@@ -401,8 +430,6 @@ export async function POST(request: NextRequest) {
 
   const name       = (body.name       as string).trim();
   const email      = (body.email      as string).trim();
-  const phone      = (body.phone      as string).trim();
-  const address    = (body.address    as string).trim();
   const adminEmail = (body.adminEmail as string).trim();
   const template   = typeof body.template === "string" ? body.template.trim() : "moderne";
 
@@ -423,28 +450,27 @@ export async function POST(request: NextRequest) {
     return err("colors.secondary doit être un code hexadécimal valide (ex: #1a1a2e).");
   }
 
-  // 6. Normalize and map formations → catalogue objects
-  // Merges all formation fields (voiture, moto, remorque, poids lourd, bateau)
-  // Each field accepts a GF object, an array of labels, or an array of slugs.
-  const rawFormationSlugs = [
-    ...normalizeFormations(body.formations),
-    ...normalizeFormations(body.formationsMoto),
-    ...normalizeFormations(body.formationsRemorque),
-    ...normalizeFormations(body.formationsPoidLourd),
-    ...normalizeFormations(body.formationsBateau),
-  ];
-  // Deduplicate across all sources
-  const allFormationSlugs = [...new Set(rawFormationSlugs)];
+  // 6. Normalize and map formations par catégorie
+  const formationsVoitureSlugs   = normalizeFormations(body.formations,        LABEL_TO_SLUG_VOITURE);
+  const formationsMotoSlugs      = normalizeFormations(body.formationsMoto,     LABEL_TO_SLUG_MOTO);
+  const formationsRemorqueSlugs  = normalizeFormations(body.formationsRemorque, LABEL_TO_SLUG_REMORQUE);
+  const formationsPoidLourdSlugs = normalizeFormations(body.formationsPoidLourd, {});
+  const formationsBateauSlugs    = normalizeFormations(body.formationsBateau,   {});
 
-  const formations: PlainObject[] = [];
-  for (const id of allFormationSlugs) {
-    const found = FORMATIONS_CATALOGUE[id];
-    if (!found) {
-      return err(
-        `ID de formation inconnu : "${id}". Valeurs acceptées : ${Object.keys(FORMATIONS_CATALOGUE).join(", ")}.`
-      );
+  for (const id of formationsVoitureSlugs) {
+    if (!FORMATIONS_VOITURE_CATALOGUE[id]) {
+      return err(`"${id}" n'est pas une formation voiture valide. Valeurs acceptées : ${Object.keys(FORMATIONS_VOITURE_CATALOGUE).join(", ")}.`);
     }
-    formations.push(found);
+  }
+  for (const id of formationsMotoSlugs) {
+    if (!FORMATIONS_MOTO_CATALOGUE[id]) {
+      return err(`"${id}" n'est pas une formation moto valide. Valeurs acceptées : ${Object.keys(FORMATIONS_MOTO_CATALOGUE).join(", ")}.`);
+    }
+  }
+  for (const id of formationsRemorqueSlugs) {
+    if (!FORMATIONS_REMORQUE_CATALOGUE[id]) {
+      return err(`"${id}" n'est pas une formation remorque valide. Valeurs acceptées : ${Object.keys(FORMATIONS_REMORQUE_CATALOGUE).join(", ")}.`);
+    }
   }
 
   // 7. Validate paiements (array of strings)
@@ -464,21 +490,55 @@ export async function POST(request: NextRequest) {
   if (typeof body.banner === "object" && body.banner !== null && !Array.isArray(body.banner)) {
     patch.banner = body.banner as PlainObject;
   }
-  if (Array.isArray(body.agences)) {
-    patch.agences = body.agences;
+
+  // Mono-agence : objet unique
+  if (typeof body.agence === "object" && body.agence !== null && !Array.isArray(body.agence)) {
+    const a = body.agence as PlainObject;
+    patch.agence = {
+      nom:      typeof a.nom      === "string" ? (a.nom      as string).trim() : "",
+      phone:    typeof a.phone    === "string" ? (a.phone    as string).trim() : "",
+      email:    typeof a.email    === "string" ? (a.email    as string).trim() : "",
+      address:  typeof a.address  === "string" ? (a.address  as string).trim() : "",
+      agrement: typeof a.agrement === "string" ? (a.agrement as string).trim() : "",
+      horaires: Array.isArray(a.horaires) ? a.horaires : [],
+    };
   }
-  if (formations.length > 0) {
-    patch.formations = formations;
-  }
+
+  // Formations par catégorie
+  if (formationsVoitureSlugs.length > 0)   patch.formations          = formationsVoitureSlugs.map((id) => FORMATIONS_VOITURE_CATALOGUE[id]);
+  if (formationsMotoSlugs.length > 0)       patch.formationsMoto      = formationsMotoSlugs.map((id) => FORMATIONS_MOTO_CATALOGUE[id]);
+  if (formationsRemorqueSlugs.length > 0)   patch.formationsRemorque  = formationsRemorqueSlugs.map((id) => FORMATIONS_REMORQUE_CATALOGUE[id]);
+  if (formationsPoidLourdSlugs.length > 0)  patch.formationsPoidLourd = formationsPoidLourdSlugs;
+  if (formationsBateauSlugs.length > 0)     patch.formationsBateau    = formationsBateauSlugs;
+
   if (paiements.length > 0) {
     patch.paiements = paiements;
   }
+
+  // Financements : override des statiques si fournis
+  if (Array.isArray(body.financements)) {
+    patch.financements = body.financements as PlainObject[];
+  }
+
   if (typeof body.prepacode === "object" && body.prepacode !== null && !Array.isArray(body.prepacode)) {
     patch.prepacode = body.prepacode as PlainObject;
   }
   if (typeof body.contact === "object" && body.contact !== null && !Array.isArray(body.contact)) {
     patch.contact = body.contact as PlainObject;
   }
+
+  // Champs métier additionnels
+  if (typeof body.siret      === "string") patch.siret      = (body.siret      as string).trim();
+  if (typeof body.rcs        === "string") patch.rcs        = (body.rcs        as string).trim();
+  if (typeof body.clientEnpc === "string") patch.clientEnpc = (body.clientEnpc as string).trim();
+  if (Array.isArray(body.chiffresClés))    patch.chiffresClés = body.chiffresClés;
+  if (typeof body.piecesAFournir === "object" && body.piecesAFournir !== null && !Array.isArray(body.piecesAFournir)) {
+    patch.piecesAFournir = body.piecesAFournir as PlainObject;
+  }
+  if (typeof body._jfFiles === "object" && body._jfFiles !== null && !Array.isArray(body._jfFiles)) {
+    patch._jfFiles = body._jfFiles as PlainObject;
+  }
+
   // Allow overriding socialLinks from header (menu is always static)
   if (typeof body.header === "object" && body.header !== null && !Array.isArray(body.header)) {
     const headerRaw = body.header as PlainObject;
@@ -502,14 +562,12 @@ export async function POST(request: NextRequest) {
   const setupTokenExpiry = new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString();
 
   // 11. Build final data: default ← patch, then stamp identity + auth
-  const defaults = buildDefaultTemplate(name, address, phone, email);
+  const defaults = buildDefaultTemplate(name, email);
   const merged   = deepMerge(defaults, patch);
 
   const data: PlainObject = {
     slug,
     name,
-    address,
-    phone,
     email,
     template,
     colors: { primary, secondary },
@@ -545,7 +603,7 @@ export async function POST(request: NextRequest) {
   }
 
   // 14. Return success with setup URL
-  const base = `http://${slug}.localhost:3000`;
+  const base = `https://${slug}.cherubif.fr`;
   return NextResponse.json(
     {
       success: true,
